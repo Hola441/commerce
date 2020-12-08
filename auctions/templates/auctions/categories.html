@@ -1,0 +1,12 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+    {% for category in Categories %}
+        <h4 class="nav-item">
+            <a class="nav-link" href="{% url 'categoriedIndex' category.categoryTitle %}">{{ category.categoryTitle }}</a>
+        </h4>
+    {% empty %}
+        <h4>No current listings</h4>
+    {% endfor %}
+{% endblock %}

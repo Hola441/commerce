@@ -1,0 +1,41 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+        {{ message }}
+        <h4>{{ ListingItem.title }}:</h4> 
+        <img src= "{{ ListingItem.image.url }}" style="margin-left: 40px">
+        <li> ${{ ListingItem.cost }} </li>
+        <li> {{ ListingItem.description }} </li>
+        {% if user.is_authenticated %}
+            {% if ListingItem.users == user %}           
+                <form action="{% url 'listingItem' ListingItem.title %}" method="post">
+                    Close listing
+                    <input type="submit">
+                </form>
+            {% endif %}
+            <form action="{% url 'listingItem' ListingItem.title %}" method="post">
+                {{ Bid }}
+                {% csrf_token %}
+                <input type="submit">
+            </form>
+            <form action="{% url 'listingItem' ListingItem.title %}" method="post">
+                {{ Comment }}
+                {% csrf_token %}
+                <input type="submit">
+            </form>
+            <form action="{% url 'listingItem' ListingItem.title %}" method="post">
+                Watchlist listing
+                <input type="submit">
+            </form>
+        {% endif %}    
+        {% for bid in bids %}
+            <li>{{ bid }}</li>
+        {% empty %}
+            <li>No Bids.</li>
+        {% endfor %}
+        {% for comment in comments %}
+            <li>{{ comment }}</li>
+        {% empty %}
+            <li>No Comments.</li>
+        {% endfor %}
+{% endblock %}
